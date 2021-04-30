@@ -20,6 +20,7 @@ jobs:
         with:
           push: true
           tags: ghcr.io/punthanat/bookinfo-ratings:dev
+          
  deploy:
     needs: build
     runs-on: ubuntu-20.04
