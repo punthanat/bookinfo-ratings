@@ -25,8 +25,6 @@ jobs:
     needs: build
     runs-on: ubuntu-20.04
     steps:
-      - name: Set env
-        run: echo "ENV_NAME=$( [ "$GITHUB_REF" == "refs/heads/master" ] && echo 'uat' || echo ${GITHUB_REF##*/} )" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
       - name: get-credentials
@@ -35,7 +33,10 @@ jobs:
           cluster_name: k8s
           location: asia-southeast1-a
           credentials: ${{ secrets.GKE_CREDENTIALS }}
-      - name: deploy
+- name: deploy
+steps:
+      - name: Set env
+        run: echo "ENV_NAME=$( [ "$GITHUB_REF" == "refs/heads/master" ] && echo 'uat' || echo ${GITHUB_REF##*/} )" >> $GITHUB_ENV
         uses: deliverybot/helm@v1
         with:
           helm: helm3
@@ -52,6 +53,7 @@ jobs:
   acceptance-test:
     needs: deploy
     runs-on: ubuntu-20.04
+    steps:
     steps:
       - name: Set env
         run: echo "ENV_NAME=$( [ "$GITHUB_REF" == "refs/heads/master" ] && echo 'uat' || echo ${GITHUB_REF##*/} )" >> $GITHUB_ENV
