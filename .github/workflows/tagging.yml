@@ -36,3 +36,4 @@ jobs:
           src: ghcr.io/punthanat/bookinfo-ratings:uat
           dst: |
             ghcr.io/punthanat/bookinfo-ratings:${{needs.git-tag.outputs.tag-version}}
+            
